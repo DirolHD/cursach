@@ -36,6 +36,8 @@ namespace WpfApp1
             bool e = false;
             foreach (Product product in context.Products)
             {
+                wp_menu.Children.Clear();
+
                 Grid grid = new Grid();
                 grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(100) });
                 grid.RowDefinitions.Add(new RowDefinition() {  Height = new GridLength(100) });
