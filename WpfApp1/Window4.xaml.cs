@@ -139,7 +139,10 @@ namespace WpfApp1
 
         private void b_order_Click(object sender, RoutedEventArgs e)
         {
-
+            MessageBox.Show($"Заказ оформлен! С Вас {c} руб.");
+            context.Users.Include(x => x.CartItems).Where(x => x.Id == user.Id).FirstOrDefault().CartItems.Clear();
+            context.SaveChanges();
+            UpdateList();
         }
     }
 }
