@@ -42,6 +42,7 @@ namespace WpfApp1
                 grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(100) });
                 grid.RowDefinitions.Add(new RowDefinition() {  Height = new GridLength(100) });
                 grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(30) });
+                grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(30) });
 
                 Image image = new Image();
                 try
@@ -54,6 +55,12 @@ namespace WpfApp1
                 }
                 image.SetValue(Grid.RowProperty, 0);
 
+                TextBlock textBlock = new TextBlock();
+                textBlock.Text = product.Name;
+                textBlock.FontSize = 15;
+                textBlock.TextWrapping = TextWrapping.Wrap;
+                textBlock.SetValue(Grid.RowProperty, 1);
+
                 Button button = new Button();
                 button.Content = "Добавить";
                 button.Foreground = Brushes.Black;
@@ -63,19 +70,20 @@ namespace WpfApp1
                 button.FontSize = 20;
                 button.Name = $"p_{product.Id}";
                 button.Click += new RoutedEventHandler(AddItem);
-                button.SetValue(Grid.RowProperty, 1);
+                button.SetValue(Grid.RowProperty, 2);
 
                 grid.Children.Add(image);
+                grid.Children.Add(textBlock);
                 grid.Children.Add(button);
 
                 wp_menu.Children.Add(grid);
-                MessageBox.Show("-");
             }
             if (e) MessageBox.Show("Возникли ошибки при загрузке изображений, проверьте имена файлов");
         }
 
         private void AddItem(object sender, RoutedEventArgs e)
         {
+            //int id = 
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
