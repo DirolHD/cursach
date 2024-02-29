@@ -34,9 +34,9 @@ namespace WpfApp1
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
             Window6 window6 = new Window6(loggedInUser);
             window6.Show();
+            this.Close();
         }
     }
 }

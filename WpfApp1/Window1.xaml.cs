@@ -46,9 +46,9 @@ namespace WpfApp1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
+            this.Close();
         }
     }
 }

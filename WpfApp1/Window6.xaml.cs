@@ -43,6 +43,7 @@ namespace WpfApp1
                 grid.RowDefinitions.Add(new RowDefinition() {  Height = new GridLength(100) });
                 grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(30) });
                 grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(30) });
+                grid.Margin = new Thickness(2);
 
                 Image image = new Image();
                 try
@@ -83,12 +84,18 @@ namespace WpfApp1
 
         private void AddItem(object sender, RoutedEventArgs e)
         {
-            //int id = 
+            int id = Convert.ToInt32(((FrameworkElement)sender).Name.Split("_")[1]);
+            if(context.CartItems.Where(x => x.Product.Id == id && user.CartItems.Contains(x)).FirstOrDefault() == null)
+                context.Users.Include(x => x.CartItems).Where(x => x.Id == user.Id).FirstOrDefault()
+                    .CartItems.Add(new CartItem() { Product = context.Products.Where(x => x.Id == id).FirstOrDefault(), Amount = 1 });
+            context.SaveChanges();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            Window4 window4 = new Window4(user);
+            window4.Show();
+            this.Close();
         }
     }
 }

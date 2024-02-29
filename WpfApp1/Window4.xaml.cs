@@ -33,9 +33,9 @@ namespace WpfApp1
 
         private void b_catalog_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
             Window6 window6 = new Window6(user);
             window6.Show();
+            this.Close();
         }
 
         private void b_logoff_Click(object sender, RoutedEventArgs e)

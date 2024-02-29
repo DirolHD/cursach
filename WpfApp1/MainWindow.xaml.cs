@@ -37,10 +37,9 @@ namespace WpfApp1
                 return;
             }
             MessageBox.Show("Вы успешно вошли в аккаунт!");
-
-            this.Hide();
             Window2 window2 = new Window2(user);
             window2.Show();
+            this.Close();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
