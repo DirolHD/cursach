@@ -23,13 +23,11 @@ namespace WpfApp1
     {
         AppDbContext context;
         User user { get; set; }
-        List<CartItem> cartItems { get; set; }
         public Window6(User u)
         {
             InitializeComponent();
             context = new AppDbContext();
             user = context.Users.Include(x => x.CartItems).Where(x => x.Id == u.Id).FirstOrDefault();
-            cartItems = context.CartItems.Include(x => x.Product).Where(x => user.CartItems.Contains(x)).ToList();
             UpdateMenu();
         }
 

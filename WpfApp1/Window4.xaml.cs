@@ -29,7 +29,19 @@ namespace WpfApp1
             user = context.Users.Include(x => x.CartItems).Where(x => x.Id == u.Id).FirstOrDefault();
         }
 
-       
+        private void UpdateList()
+        {
+            List<CartItem> cartItems = context.CartItems.Include(x => x.Product).Where(x => user.CartItems.Contains(x)).ToList();
+            foreach (CartItem cartItem in cartItems)
+            {
+                Grid grid = new Grid();
+                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(100) });
+                grid.ColumnDefinitions.Add(new ColumnDefinition() {});
+                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(30) });
+                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(30) });
+                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(30) });
+            }
+        }
 
         private void b_catalog_Click(object sender, RoutedEventArgs e)
         {
@@ -38,17 +50,7 @@ namespace WpfApp1
             this.Close();
         }
 
-        private void b_logoff_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void b_buy_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void b_clear_Click(object sender, RoutedEventArgs e)
+        private void b_order_Click(object sender, RoutedEventArgs e)
         {
 
         }
