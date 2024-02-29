@@ -22,11 +22,13 @@ namespace WpfApp1
     {
         AppDbContext context;
         User user { get; set; }
+        double c = 0;
         public Window4(User u)
         {
             InitializeComponent();
             context = new AppDbContext();
             user = context.Users.Include(x => x.CartItems).Where(x => x.Id == u.Id).FirstOrDefault();
+            c = 0;
             UpdateList();
         }
 
@@ -34,16 +36,20 @@ namespace WpfApp1
         {
             List<CartItem> cartItems = context.CartItems.Include(x => x.Product).Where(x => user.CartItems.Contains(x)).ToList();
             bool e = false;
+            sp_cart.Children.Clear();
+            c = 0;
             foreach (CartItem cartItem in cartItems)
             {
-                sp_cart.Children.Clear();
-
+                c += Convert.ToDouble(cartItem.Product.Price * cartItem.Amount);
+                
                 Grid grid = new Grid();
                 grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(100) });
                 grid.ColumnDefinitions.Add(new ColumnDefinition() { });
                 grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(30) });
                 grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(30) });
                 grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(30) });
+                grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(50) });
+                grid.Margin = new Thickness(2.5);
 
                 Image image = new Image();
                 try
@@ -54,7 +60,8 @@ namespace WpfApp1
                 {
                     e = true;
                 }
-                image.SetValue(Grid.RowProperty, 0);
+                image.SetValue(Grid.ColumnProperty, 0);
+                image.Margin = new Thickness(5);
 
                 TextBlock textBlock = new TextBlock();
                 textBlock.Text = cartItem.Product.Name;
@@ -62,6 +69,7 @@ namespace WpfApp1
                 textBlock.VerticalAlignment = VerticalAlignment.Top;
                 textBlock.FontSize = 20;
                 textBlock.TextWrapping = TextWrapping.Wrap;
+                textBlock.SetValue(Grid.ColumnProperty, 1);
 
                 var converter = new BrushConverter();
 
@@ -73,15 +81,34 @@ namespace WpfApp1
                 decButton.FontSize = 20;
                 decButton.Name = $"dec_{cartItem.Id}";
                 decButton.Click += new RoutedEventHandler(Minus);
+                decButton.Margin = new Thickness(5);
+                decButton.SetValue(Grid.ColumnProperty, 2);
+
+                TextBlock counter = new TextBlock();
+                counter.Text = cartItem.Amount.ToString();
+                counter.HorizontalAlignment = HorizontalAlignment.Center;
+                counter.VerticalAlignment = VerticalAlignment.Center;
+                counter.FontSize = 20;
+                counter.SetValue(Grid.ColumnProperty, 3);
 
                 Button incButton = new Button();
-                incButton.Content = "-";
+                incButton.Content = "+";
                 incButton.Foreground = Brushes.Black;
                 incButton.Background = (Brush)converter.ConvertFrom("#EE9B01");
                 incButton.FontWeight = FontWeights.Bold;
                 incButton.FontSize = 20;
                 incButton.Name = $"inc_{cartItem.Id}";
                 incButton.Click += new RoutedEventHandler(Plus);
+                incButton.Margin = new Thickness(5);
+                incButton.SetValue(Grid.ColumnProperty, 4);
+
+                grid.Children.Add(image);
+                grid.Children.Add(textBlock);
+                grid.Children.Add(decButton);
+                grid.Children.Add(counter);
+                grid.Children.Add(incButton);
+
+                sp_cart.Children.Add(grid);
             }
             if (e) MessageBox.Show("Возникли ошибки при загрузке изображений, проверьте имена файлов");
         }

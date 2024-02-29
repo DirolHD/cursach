@@ -34,10 +34,9 @@ namespace WpfApp1
         private void UpdateMenu()
         {
             bool e = false;
+            wp_menu.Children.Clear();
             foreach (Product product in context.Products)
             {
-                wp_menu.Children.Clear();
-
                 Grid grid = new Grid();
                 grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(100) });
                 grid.RowDefinitions.Add(new RowDefinition() {  Height = new GridLength(100) });
